@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  backend:
+    build: ./
+    container_name: api
+    environment:
+      - DB_CONNECTION=postgres
+      - DB_HOST=postgres_db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=visionlife
+      - DB_PORT=5432
+      - 'HASH_SALT=$$2b$$04$$uvOzDc9nGCaO37oyMJVRtu'
+      - JWT_SECRET=JWT_SECRET-verysmartlythought
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database
+    networks:
+      - api_network
+
+  # database:
+  #   image: postgres
+  #   container_name: postgres_db
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: visionlife
+  #   ports:
+  #     - '5432:5432'
+  #   volumes:
+  #     - './postgresdb-backup:/data/db'
+  #   networks:
+  #     - api_network
+
+networks:
+  api_network:
+    driver: bridge
